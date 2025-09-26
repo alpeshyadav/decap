@@ -1,0 +1,107 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Image handling configuration
+media_folder: static/img
+public_folder: /img
+
+# Enable media library for easy image management
+media_library:
+  name: uploadcare
+  config:
+    publicKey: your_uploadcare_key_here
+
+# Alternative: use local media handling
+# media_folder: static/images
+# public_folder: /images
+
+collections:
+  - name: "pages"
+    label: "Pages"
+    folder: "content/pages"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "/"
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        required: true
+
+      - label: "Language"
+        name: "lang"
+        widget: "select"
+        options: ["en", "fr"]
+        default: "en"
+
+      - label: "Hero Image"
+        name: "image"
+        widget: "image"
+        required: false
+        hint: "Upload an image for the page header"
+        media_library:
+          config:
+            multiple: false
+            choose_url: false
+
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        required: false
+        hint: "A short description of the page"
+
+      - label: "Content"
+        name: "body"
+        widget: "markdown"
+        required: true
+        hint: "Main content of the page"
+        buttons: ["bold", "italic", "code", "link", "heading-two", "heading-three", "quote", "bulleted-list", "numbered-list"]
+        editor_components: ["image"]
+
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "General Settings"
+        name: "general"
+        file: "content/settings/general.md"
+        fields:
+          - label: "Site Title"
+            name: "title"
+            widget: "string"
+
+          - label: "Site Logo"
+            name: "logo"
+            widget: "image"
+            required: false
+            hint: "Upload your site logo"
+            media_library:
+              config:
+                multiple: false
+
+          - label: "Footer Text"
+            name: "footer"
+            widget: "text"
+
+  - name: "gallery"
+    label: "Image Gallery"
+    folder: "content/gallery"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+
+      - label: "Featured Image"
+        name: "featured_image"
+        widget: "image"
+        hint: "Main gallery image"
+
+      - label: "Gallery Images"
+        name: "images"
+        widget: "list"
+        field:
+          label: "Image"
+          name: "image"
+          widget: "image"
