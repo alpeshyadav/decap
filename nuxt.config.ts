@@ -22,6 +22,7 @@ export default defineNuxtConfig({
 
   // Static site generation
   nitro: {
+      preset: 'static', // ✅ This is the missing piece
     prerender: {
       routes: ['/']
     }
